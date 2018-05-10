@@ -434,7 +434,7 @@ collections.updateOne(
   }
 })
 ```
-
+db.movies.find({cast: {$in: ["Jack Nicholson", "John Huston"]}, viewerRating: {$gt: 7}, mpaaRating: "R"}).pretty()
 
 __collection.updateOne()__ [upsert](https://docs.mongodb.com/manual/reference/method/db.collection.update/)
 
