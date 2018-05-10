@@ -128,7 +128,7 @@ __collection.insertMany()__
     })
 ```
 
-__collection.find()__
+__db.collection.find()__
 ```bash
 #find all
 db.collectionName.find()
@@ -140,13 +140,13 @@ e.g. `db.collectionName.find().pretty()`
 
 ### READ
 
-__collection.find({someKey: "someValue"})__ with filter
+__db.collection.find({someKey: "someValue"})__ with filter
 ```bash
 #find specific by key
 db.collectionName.find({someKey: "someValue"}) (e.g. find({age: 14}))
 ```
 
-__collection.find({someKey: "someValue"})__ with nested object filter
+__db.collection.find({someKey: "someValue"})__ with nested object filter
 ```bash
 #find specific in nested obj
 e.g
@@ -182,7 +182,7 @@ documents:
 db.collectionName.find({"profession.currentCompany.field": "education"}) 
 ```
 
-__collection.find()__ arrays
+__db.collection.find()__ arrays
 ```bash
 #find in arrays
 e.g.
@@ -238,24 +238,24 @@ db.collectionName.find({"pastCompanies.0": "Google"}) #returns documents where "
 
 __utility methods__
 
-__collection.find().count()__
+__db.collection.find().count()__
 ```bash
-collection.find({someKey: "someValue"}).count()
+db.collection.find({someKey: "someValue"}).count()
 ```
 
-__collection.find().pretty()__
+__db.collection.find().pretty()__
 ```bash
 #returns the matched documents formatted
-collection.find({someKey: "someValue"}).pretty()
+db.collection.find({someKey: "someValue"}).pretty()
 ```
 
-__collection.find().explain()__ [https://docs.mongodb.com/manual/reference/method/cursor.explain/](https://docs.mongodb.com/manual/reference/method/cursor.explain/)
+__db.collection.find().explain()__ [https://docs.mongodb.com/manual/reference/method/cursor.explain/](https://docs.mongodb.com/manual/reference/method/cursor.explain/)
 ```bash
 #explains how the query is made--like a debugger
-collection.find({someKey: "someValue"}).explain()
+db.collection.find({someKey: "someValue"}).explain()
 
 #gives details about the query execution
-collection.find({someKey: "someValue"}).explain("executionStats")
+db.collection.find({someKey: "someValue"}).explain("executionStats")
 ```
 
 __Projections__
@@ -270,15 +270,26 @@ e.g.
 #consider the Person collection above
 #this query returns only the name field (and _id by default) of people whose experience value is 3
 
-collection.find({experience: 3}, {name: 1})
+db.collection.find({experience: 3}, {name: 1})
 
 #this query excludes the id from the results
-collection.find({experience: 3}, {name: 1, _id: 0})
+db.collection.find({experience: 3}, {name: 1, _id: 0})
 
 
 #this query returns all fields but name
-collection.find({experience: 3}, {name: 0})
+db.collection.find({experience: 3}, {name: 0})
 ```
+
+
+__create index on collection for fast document lookups__
+Without an index, a query will look up all documents in a collection until it finds the one(s) tha match. If we create an index on a collection the lookups will be much faster as mongo will examine only documents that match the query.
+
+```bash
+# "number" is a special variable for creating indexes in mongo
+db.collection.createIndex({number: 1})
+```
+
+As an exercise, perform a query on a collection before indexing it and after indexing it. In both cases, use the `.explain("executionStats")` on the query and check the property `totalDocsExamined`. The indexed collection should return the count of documents that match the query while the count for the unindexed collection will be the total number documents in that collection.
 
 
 ### UPDATE
