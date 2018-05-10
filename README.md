@@ -1,5 +1,8 @@
 # mongodb tutorial [https://docs.mongodb.com/manual/introduction/](https://docs.mongodb.com/manual/introduction/)
 
+> Connect to Atlas dbs:
+mongo "mongodb://cluster0-shard-00-00-jxeqq.mongodb.net:27017,cluster0-shard-00-00-jxeqq.mongodb.net:27017,cluster0-shard-00-00-jxeqq.mongodb.net:27017/data?replicaSet=Cluster0-shard-0" --ssl --authenticationDatabase admin --username m001-student --password m001-mongodb-basics
+
 ## get MongoDB Compass (or robomongo)
 
 MongoDB Compass is a GUI that allows you to interact with your databases. Once you open the GUI, use your database credentials to connect to your DBs.
@@ -50,12 +53,35 @@ __Connect shell__
 
 3. Connect to your cluster or standalone DB -- you can connect to a local db if you want, just make sure you create it first via robomongo or via mongo shell (`use <dbName>` creates db and let's you interact with it).
 
+e.g. (cluster connection)
+
+```bash
+#this command works for mongo shell 3.6 or later--this command prompts you to enter the password
+mongo "mongodb+srv://sandbox-hj5gk.mongodb.net/test" --username m001-student
+
+#for older versions, this is the command
+mongo "mongodb://sandbox-shard-00-00-hj5gk.mongodb.net:27017,sandbox-shard-00-01-hj5gk.mongodb.net:27017,sandbox-shard-00-02-hj5gk.mongodb.net:27017/test?replicaSet=Sandbox-shard-0" --ssl --authenticationDatabase admin --username m001-student --password <PASSWORD>
+```
+
 4. run `load(<dbFileName.js>)`
 
 This will create the new db as specified on the .js file you load (in this example, "video"). e.g.
 
 __Load data__
-![whitelist](img/loaddb.png)
+![loaddata](img/loaddb.png)
+
+
+> After db is created, you can insert collections/documents using scripts as well. For instance, the command below runs the script "loadReviewsDataset.js" against the recently created "video" DB
+
+```bash
+#bash -v 3.6 or later
+#notice you need to add the db name (video) on the db URL
+mongo "mongodb+srv://sandbox-hj5gk.mongodb.net/video" --username m001-student loadReviewsDataset.js
+
+# bash less than 3.6
+mongo "mongodb://sandbox-shard-00-00-hj5gk.mongodb.net:27017,sandbox-shard-00-01-hj5gk.mongodb.net:27017,sandbox-shard-00-02-hj5gk.mongodb.net:27017/test?replicaSet=Sandbox-shard-0" --ssl --authenticationDatabase admin --username m001-student --password <PASSWORD> loadReviewsDataset.js
+```
+
 
 
 ## Common Shell Commands (https://docs.mongodb.com/manual/reference/mongo-shell/)[https://docs.mongodb.com/manual/reference/mongo-shell/]
@@ -68,6 +94,9 @@ db.collectionName.find() // shows collection content
 ```
 
 ## Common Methods (https://docs.mongodb.com/manual/reference/mongo-shell/)[https://docs.mongodb.com/manual/reference/mongo-shell/]
+
+
+### CREATE
 
 __collection.insertOne()__
 ```bash
@@ -108,6 +137,8 @@ db.collectionName.find()
 > When querying the DB we can use the `pretty()` method to display a formated json document
 e.g. `db.collectionName.find().pretty()`
 
+
+### READ
 
 __collection.find({someKey: "someValue"})__ with filter
 ```bash
@@ -237,6 +268,9 @@ collection.find({experience: 3}, {name: 1, _id: 0})
 collection.find({experience: 3}, {name: 0})
 ```
 
+
+### UPDATE
+
 __collection.updateOne()__: $set
 
 [update operators](https://docs.mongodb.com/manual/reference/operator/update/)
@@ -287,6 +321,7 @@ collection.updateOne({
   }
 })
 ```
+
 __collection.updateOne()__: [$inc](https://docs.mongodb.com/manual/reference/operator/update/inc/)
 
 ```bash
@@ -458,9 +493,132 @@ collection.replaceOne({
 )
 ```
 
+### DELETE
+
+__collection.deleteOne()__ [delete](https://docs.mongodb.com/v3.2/tutorial/remove-documents/)
+
+Specify document to be deleted by unique identifier
+
+```bash
+#deletes this particular entry from db
+collection.deleteOne({_id: Object("123455123412346")}) 
+```
+
+__collection.deleteMany()__ 
+Specify identifier that is shared among several documents
+
+```bash
+#deletes all entries in this collection
+collection.deleteMany({}) 
+
+#OR 
+
+db.users.remove({})
 
 
+#deletes all entries in this collection whose "userBlogId" is 12345 (meaning all blogs written by this user)
+collection.deleteMany({userBlogId: 12345})
 
+#OR 
+
+db.users.remove({userBlogId: 12345})
+```
+
+
+### QUERY OPERATORS [https://docs.mongodb.com/manual/reference/operator/query/](https://docs.mongodb.com/manual/reference/operator/query/)
+
+Below are just some of the existing query operators. Check the link above for more.
+
+
+__$gt, $gte, $lt, $lte__
+
+Greater than, greater than or equal to, less than, less than or equal to
+
+Query operators are used as the first argument to the query
+
+```bash
+#the query below returns salaries that are greater than or equal to 3000 and less than or equal to 4000
+collections.find({salary: {$gte: 3000, $lte: 4000}}) 
+
+
+#this query to our video db returns the titles, actors, year, and imdb rating of movies whose imdb rating is greater than 7
+#connect to atlas cluster, then:
+use video
+db.movieDetails.find({"imdb.rating": {$gte: 7}}, {title: 1, actors: 1, year:1, _id: 0, "imdb.rating": 1}).pretty()
+```
+
+__$in__
+
+Matches any of the values specified in an array.
+```bash
+
+#this query to our video db returns the titles, actors, year, and imdb rating of movies whose imdb rating is either 7, 7.5, or 8
+#connect to atlas cluster, then:
+use video
+db.movieDetails.find({"imdb.rating": {$in: [7, 7.5, 8]}}, {title: 1, actors: 1, year:1, _id: 0, "imdb.rating": 1}).pretty()
+```
+
+
+__elements operators__ [https://docs.mongodb.com/manual/reference/operator/query-element/](https://docs.mongodb.com/manual/reference/operator/query-element/)
+
+```bash
+#$exists: matches documents that have the specified field.
+#$type: Selects documents if a field is of the specified type.
+
+#check "m001_element_operators.js" file
+
+db.moviesDetails.find({mpaaRating: {$exists: true}})
+
+db.moviesDetails.find({mpaaRating: {$exists: false}})
+
+#matches documents whose "mpaaRating" is set to "null" and those that don't have 
+# the "mpaaRating" field at all
+db.movieDetails.find({mpaaRating: null})
+
+db.movieDetails.find({"imdb.rating": {$type: "int"}}).pretty()
+```
+
+__logical operators__ [https://docs.mongodb.com/manual/reference/operator/query-logical/index.html](https://docs.mongodb.com/manual/reference/operator/query-logical/index.html)
+
+```bash
+#check "m001_logical_operators.js" file
+```
+
+__array operators__[https://docs.mongodb.com/manual/reference/operator/query-array/](https://docs.mongodb.com/manual/reference/operator/query-array/)
+
+### $all
+
+```bash
+#used to filter documents whose arrays contains all listed items regardless of the order they are listed
+db.movieDetails.find({genres: {$all: ["Comedy", "Crime", "Drama"]}},{_id: 0, title: 1, genres: 1}).pretty()
+
+#NOTE
+#in this search the order matters
+db.movieDetails.find({genres:["Comedy", "Crime", "Drama"]},{_id: 0, title: 1, genres: 1}).pretty()
+```
+
+### $size
+
+```bash
+#used to filter documents whose arrays size matches the one provided in the query
+db.movieDetails.find({genres: {$size: 3}},{_id: 0, title: 1, genres: 1}).pretty()
+```
+
+### $elemMatch
+
+```bash
+#The $elemMatch operator matches documents that contain an array field with at least one element that matches all the specified query criteria.
+
+db.movieDetails.find({genres: {$size: 3}},{_id: 0, title: 1, genres: 1}).pretty()
+```
+
+### $regex
+
+```bash
+#the regex matches all documents whose "awards.text" field starts with "Won" and is followed by a space and any other character repeated any number of times
+
+db.movieDetails.find({"awards.text": {$regex: /^Won .* /}}, {_id: 0, title: 1, "awards.text": 1}).pretty()
+```
 
 
 
