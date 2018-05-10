@@ -236,6 +236,8 @@ db.collectionName.find({pastCompanies: ["Google", "Amazon"]}) #returns arrays wh
 db.collectionName.find({"pastCompanies.0": "Google"}) #returns documents where "Google" is index 0 of "pastCompanies" array
 ```
 
+__utility methods__
+
 __collection.find().count()__
 ```bash
 collection.find({someKey: "someValue"}).count()
@@ -243,7 +245,17 @@ collection.find({someKey: "someValue"}).count()
 
 __collection.find().pretty()__
 ```bash
+#returns the matched documents formatted
 collection.find({someKey: "someValue"}).pretty()
+```
+
+__collection.find().explain()__ [https://docs.mongodb.com/manual/reference/method/cursor.explain/](https://docs.mongodb.com/manual/reference/method/cursor.explain/)
+```bash
+#explains how the query is made--like a debugger
+collection.find({someKey: "someValue"}).explain()
+
+#gives details about the query execution
+collection.find({someKey: "someValue"}).explain("executionStats")
 ```
 
 __Projections__
