@@ -271,9 +271,21 @@ collection.find({experience: 3}, {name: 0})
 
 ### UPDATE
 
-__collection.updateOne()__: $set
-
+__collection.update()__
 [update operators](https://docs.mongodb.com/manual/reference/operator/update/)
+
+```bash
+#this update operation replaces the whole document of the matched query
+collection.updateOne({
+  name: "JD"
+},
+{
+  name: "John Doe",
+  age: 23
+})
+```
+
+__collection.updateOne()__: $set
 
 Finds a document by specified identifier and updates it. If there are multiple documents that match the identifier (say, {name: "Joe"}) mongo will only update the first document found.
 
