@@ -308,6 +308,22 @@ collection.updateOne({
 })
 ```
 
+__collection.update()__ [$addToSet](https://docs.mongodb.com/manual/reference/operator/update/addToSet/)
+
+This operator adds items to a set (array) that already exists
+
+```bash
+#this update operation replaces the whole document of the matched query
+collection.updateOne({
+  name: "JD"
+},
+{
+  $addToSet: {
+    "profession.pastCompanies": "Microsoft"
+  }
+})
+```
+
 __collection.updateOne()__: $set
 
 Finds a document by specified identifier and updates it. If there are multiple documents that match the identifier (say, {name: "Joe"}) mongo will only update the first document found.
@@ -656,4 +672,23 @@ db.movieDetails.find({"awards.text": {$regex: /^Won .* /}}, {_id: 0, title: 1, "
 ```
 
 
+__import documents on the shell__ [import](https://docs.mongodb.com/manual/reference/program/mongoimport/)
 
+>Should be avoided on production
+
+All import operations have to happen outside of the shell
+
+
+Use `mongoimport --help` to see possible flags to be passed to this command 
+
+e.g.
+```bash
+#cd into the directory that has the file containing the data you want to import and
+#launch mongo shell from that directory then:
+
+# for a simple document
+$ mongoimport --db <dbName> --collection <collectionName> --file contacts.json
+
+# for an array of documents
+$ mongoimport --db <dbName> --collection <collectionName> --jsonArray --file <fileName>.json
+```
