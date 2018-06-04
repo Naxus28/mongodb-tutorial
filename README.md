@@ -314,9 +314,9 @@ db.collection.find({item: "Software Engineer", stock: "John"})
 #NOTE: compound indexes are not just a fast way to create multiple indexes at once
 #In the example above, both keys "item" and "stock" are indexed. So whether you use
 #them combined or individually the lookup will be fast. However, "The order of the fields listed
-in a compound index is important. The index will contain references to documents sorted first by
-the values of the 'item' field and, within each value of the 'item' field, sorted by values of
-the 'stock' field. See Sort Order for more information."
+#in a compound index is important. The index will contain references to documents sorted first by
+#the values of the 'item' field and, within each value of the 'item' field, sorted by values of
+#the 'stock' field. See Sort Order for more information."
 ```
 
 
