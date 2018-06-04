@@ -493,6 +493,7 @@ collections.updateOne(
 },
 ```
 ___collection.updateOne() with push with $each__:[$push $each](https://docs.mongodb.com/manual/reference/operator/update/push/)
+
 To push several individual objects at once we need to use the $each operator, otherwise all the objects would be inserted as the first element of the array
 
 ```bash
