@@ -1,0 +1,23 @@
+{
+  "name": "mongodb-tutorial",
+  "version": "1.0.0",
+  "description": "> Connect to Atlas dbs: mongo \"mongodb://cluster0-shard-00-00-jxeqq.mongodb.net:27017,cluster0-shard-00-00-jxeqq.mongodb.net:27017,cluster0-shard-00-00-jxeqq.mongodb.net:27017/data?replicaSet=Cluster0-shard-0\" --ssl --authenticationDatabase admin --username m001-student --password m001-mongodb-basics",
+  "main": "index.js",
+  "dependencies": {
+    "assert": "^1.4.1",
+    "hapi": "^17.4.0",
+    "mongodb": "^3.0.8"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Naxus28/mongodb-tutorial.git"
+  },
+  "author": "Gabriel Ferraz <gabrielferraz27@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Naxus28/mongodb-tutorial/issues"
+  },
+  "homepage": "https://github.com/Naxus28/mongodb-tutorial#readme"
+}

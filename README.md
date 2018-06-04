@@ -79,12 +79,12 @@ __Load data__
 mongo "mongodb+srv://sandbox-hj5gk.mongodb.net/video" --username m001-student loadReviewsDataset.js
 
 # bash less than 3.6
-mongo "mongodb://sandbox-shard-00-00-hj5gk.mongodb.net:27017,sandbox-shard-00-01-hj5gk.mongodb.net:27017,sandbox-shard-00-02-hj5gk.mongodb.net:27017/test?replicaSet=Sandbox-shard-0" --ssl --authenticationDatabase admin --username m001-student --password <PASSWORD> loadReviewsDataset.js
+mongo "mongodb://sandbox-shard-00-00-hj5gk.mongodb.net:27017,sandbox-shard-00-01-hj5gk.mongodb.net:27017,sandbox-shard-00-02-hj5gk.mongodb.net:27017/video?replicaSet=Sandbox-shard-0" --ssl --authenticationDatabase admin --username m001-student --password <PASSWORD> loadReviewsDataset.js
 ```
 
 
 
-## Common Shell Commands (https://docs.mongodb.com/manual/reference/mongo-shell/)[https://docs.mongodb.com/manual/reference/mongo-shell/]
+## Common Shell Commands [https://docs.mongodb.com/manual/reference/mongo-shell/](https://docs.mongodb.com/manual/reference/mongo-shell/)
 
 ```bash
 show dbs // shows all dbs
@@ -93,7 +93,7 @@ show collections // shows all collections in the db
 db.collectionName.find() // shows collection content
 ```
 
-## Common Methods (https://docs.mongodb.com/manual/reference/mongo-shell/)[https://docs.mongodb.com/manual/reference/mongo-shell/]
+## Common Methods [https://docs.mongodb.com/manual/reference/mongo-shell/](https://docs.mongodb.com/manual/reference/mongo-shell/)
 
 
 ### CREATE
