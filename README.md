@@ -612,7 +612,8 @@ db.users.drop()
 #what you are trying to accomplish.
 
 
-#deletes all entries in this collection whose "userBlogId" is 12345 (meaning all blogs written by this user)
+#deletes all entries in this collection whose "userBlogId" is 12345 (meaning all blogs written 
+#by this user)
 collection.deleteMany({userBlogId: 12345})
 
 #OR 
