@@ -228,13 +228,13 @@ e.g.
 
 
 #We can search all users who have worked on a certain company:
-db.collectionName.find({pastCompanies: "Google"})
+db.collectionName.find({"profession.pastCompanies": "Google"})
 
 #Who have worked on a multiple companies
-db.collectionName.find({pastCompanies: ["Google", "Amazon"]}) #returns arrays where "Google" comes before "Amazon" so the first document above is not a match
+db.collectionName.find({"profession.pastCompanies": ["Google", "Amazon"]}) #returns arrays where "Google" comes before "Amazon" so the first document above is not a match
 
 #Who have worked on a certain company as long as it is in a specific position in the array (useful when array is ordered by some kind of hierarchy)
-db.collectionName.find({"pastCompanies.0": "Google"}) #returns documents where "Google" is index 0 of "pastCompanies" array
+db.collectionName.find({"profession.pastCompanies.0": "Google"}) #returns documents where "Google" is index 0 of "pastCompanies" array
 ```
 
 __utility methods__
@@ -283,6 +283,7 @@ db.collection.find({experience: 3}, {name: 0})
 
 
 __simple index on collection for fast document lookups__
+
 Without an index, a query will look up all documents in a collection until it finds the one(s) tha match. If we create an index on a collection the lookups will be much faster as mongo will examine only documents that match the query.
 
 ```bash
@@ -298,6 +299,7 @@ db.collection.find({profession: "Software Engineer"})
 ```
 
 __multi key (compound) index on collection for fast document lookups__
+
 [compound indexes](https://docs.mongodb.com/manual/core/index-compound/#create-a-compound-index)
 
 ```bash
@@ -323,6 +325,7 @@ As an exercise, perform a query on a collection before indexing it and after ind
 ### UPDATE
 
 __collection.update()__
+
 [update operators](https://docs.mongodb.com/manual/reference/operator/update/)
 
 ```bash
