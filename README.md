@@ -672,7 +672,17 @@ db.moviesDetails.find({mpaaRating: {$exists: false}})
 # the "mpaaRating" field at all
 db.movieDetails.find({mpaaRating: null})
 
-db.movieDetails.find({"imdb.rating": {$type: "int"}}).pretty()
+db.movieDetails.find({boxOffice: {$elemMatch: {"country": "Germany", "revenue": {$gt: 16}}}})
+
+
+#NOTE
+#in a query such as the one below, the two elements specified in the
+#filter DO NOT need to match in the same array element:
+#one filter could match document x and the other could match in document y
+#so the query below would match our boxOffice array even though there is no 
+#single document where the country is Germany AND the revenue is greater than 17
+
+db.movieDetails.find({"boxOffice.country": "Germany", "boxOffice.revenue": {$gt: 17}}).pretty()
 ```
 
 __logical operators__ [https://docs.mongodb.com/manual/reference/operator/query-logical/index.html](https://docs.mongodb.com/manual/reference/operator/query-logical/index.html)
@@ -686,7 +696,7 @@ __array operators__ [https://docs.mongodb.com/manual/reference/operator/query-ar
 ### $all
 
 ```bash
-#used to filter documents whose arrays contains all listed items regardless of the order they are listed
+#used to filter documents whose arrays contain all listed items regardless of the order they are listed
 db.movieDetails.find({genres: {$all: ["Comedy", "Crime", "Drama"]}},{_id: 0, title: 1, genres: 1}).pretty()
 
 #NOTE
