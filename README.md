@@ -672,17 +672,7 @@ db.moviesDetails.find({mpaaRating: {$exists: false}})
 # the "mpaaRating" field at all
 db.movieDetails.find({mpaaRating: null})
 
-db.movieDetails.find({boxOffice: {$elemMatch: {"country": "Germany", "revenue": {$gt: 16}}}})
-
-
-#NOTE
-#in a query such as the one below, the two elements specified in the
-#filter DO NOT need to match in the same array element:
-#one filter could match document x and the other could match in document y
-#so the query below would match our boxOffice array even though there is no 
-#single document where the country is Germany AND the revenue is greater than 17
-
-db.movieDetails.find({"boxOffice.country": "Germany", "boxOffice.revenue": {$gt: 17}}).pretty()
+db.movieDetails.find({"imdb.rating": {$type: "int"}}).pretty()
 ```
 
 __logical operators__ [https://docs.mongodb.com/manual/reference/operator/query-logical/index.html](https://docs.mongodb.com/manual/reference/operator/query-logical/index.html)
@@ -714,9 +704,20 @@ db.movieDetails.find({genres: {$size: 3}},{_id: 0, title: 1, genres: 1}).pretty(
 ### $elemMatch
 
 ```bash
-#The $elemMatch operator matches documents that contain an array field with at least one element that matches all the specified query criteria.
+#The $elemMatch operator matches documents that contain an array field with at least one element 
+#that matches all the specified query criteria.
 
-db.movieDetails.find({genres: {$size: 3}},{_id: 0, title: 1, genres: 1}).pretty()
+db.movieDetails.find({boxOffice: {$elemMatch: {"country": "Germany", "revenue": {$gt: 16}}}})
+
+
+#NOTE
+#in a query such as the one below, the two elements specified in the
+#filter DO NOT need to match in the same array element:
+#one filter could match document x and the other could match in document y
+#so the query below would match our boxOffice array even though there is no 
+#single document where the country is Germany AND the revenue is greater than 17
+
+db.movieDetails.find({"boxOffice.country": "Germany", "boxOffice.revenue": {$gt: 17}}).pretty()
 ```
 
 ### $regex
