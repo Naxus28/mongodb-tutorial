@@ -281,13 +281,40 @@ db.collection.find({experience: 3}, {name: 0})
 ```
 
 
-__create index on collection for fast document lookups__
+__simple index on collection for fast document lookups__
 Without an index, a query will look up all documents in a collection until it finds the one(s) tha match. If we create an index on a collection the lookups will be much faster as mongo will examine only documents that match the query.
 
 ```bash
-# "number" is a special variable for creating indexes in mongo
-db.collection.createIndex({number: 1})
+# "someField" is the property we are indexing so queries performed on that
+# field will be faster
+db.collection.createIndex({<someField>: 1})
+
+#e.g.
+db.collection.createIndex({profession: 1})
+db.collection.find({profession: "Software Engineer"})
+
+#NOTE: the property being indexed is not between quotes
 ```
+
+__multi key (compound) index on collection for fast document lookups__
+[compound indexes](https://docs.mongodb.com/manual/core/index-compound/#create-a-compound-index)
+
+```bash
+# "someField" is the property we are indexing so queries performed on that
+# field will be faster
+db.collection.createIndex({<someField>: 1, <someOtherField>: 1})
+
+#e.g.
+db.collection.createIndex({item: 1, stock: 1 })
+db.collection.find({item: "Software Engineer", stock: "John"})
+
+#NOTE: compound indexes are not just a fast way to create multiple indexes at once
+#In the example above, both keys "item" and "stock" are indexed. So whether you use
+#them combined or individually the lookup will be fast. However, "The order of the fields listed in a compound index is important. The index will contain references to documents sorted first by the values of the item field and, within each value of the item field, sorted by values of the stock field. See Sort Order for more information."
+```
+
+
+
 
 As an exercise, perform a query on a collection before indexing it and after indexing it. In both cases, use the `.explain("executionStats")` on the query and check the property `totalDocsExamined`. The indexed collection should return the count of documents that match the query while the count for the unindexed collection will be the total number documents in that collection.
 
@@ -544,6 +571,7 @@ collection.replaceOne({
 )
 ```
 
+
 ### DELETE
 
 __collection.deleteOne()__ [delete](https://docs.mongodb.com/v3.2/tutorial/remove-documents/)
@@ -560,11 +588,18 @@ Specify identifier that is shared among several documents
 
 ```bash
 #deletes all entries in this collection
-collection.deleteMany({}) 
+collection.deleteMany({}) # can specify filter 
 
 #OR 
 
-db.users.remove({})
+db.users.remove({}) # can specify filter 
+
+#OR
+
+db.users.drop()
+
+
+#NOTE: For the most part these methods are interchegeable but there are differences in performance and use cases for each. Look at the docs to choose the one that best applis for what you are trying to accomplish.
 
 
 #deletes all entries in this collection whose "userBlogId" is 12345 (meaning all blogs written by this user)
