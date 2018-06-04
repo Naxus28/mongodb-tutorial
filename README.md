@@ -284,7 +284,7 @@ db.collection.find({experience: 3}, {name: 0})
 
 __simple index on collection for fast document lookups__
 
-Without an index, a query will look up all documents in a collection until it finds the one(s) tha match. If we create an index on a collection the lookups will be much faster as mongo will examine only documents that match the query.
+Without an index, a query will look up all documents in a collection until it finds the one(s) that matches. If we create an index on a collection the lookups will be much faster as mongo will examine only documents that match the query.
 
 ```bash
 # "someField" is the property we are indexing so queries performed on that
