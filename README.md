@@ -120,13 +120,16 @@ __collection.insertMany()__
     {someKey: "some val", someKey: "some val"}
   ])
 
-    db.collectionName.insertMany([
-      {someKey: "some val", someKey: "some val"},
-      {someKey: "some val", someKey: "some val"}
-    ], {
-      ordered: false
-    })
+  db.collectionName.insertMany([
+    {someKey: "some val", someKey: "some val"},
+    {someKey: "some val", someKey: "some val"}
+  ], {
+    ordered: false
+  });
+
+
 ```
+###READ 
 
 __db.collection.find()__
 ```bash
@@ -137,8 +140,6 @@ db.collectionName.find()
 > When querying the DB we can use the `pretty()` method to display a formated json document
 e.g. `db.collectionName.find().pretty()`
 
-
-### READ
 
 __db.collection.find({someKey: "someValue"})__ with filter
 ```bash
