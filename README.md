@@ -607,7 +607,9 @@ db.users.remove({}) # can specify filter
 db.users.drop()
 
 
-#NOTE: For the most part these methods are interchegeable but there are differences in performance and use cases for each. Look at the docs to choose the one that best applis for what you are trying to accomplish.
+#NOTE: For the most part these methods are interchegeable but there are differences in 
+#performance and use cases for each. Look at the docs to choose the one that best applies for 
+#what you are trying to accomplish.
 
 
 #deletes all entries in this collection whose "userBlogId" is 12345 (meaning all blogs written by this user)
