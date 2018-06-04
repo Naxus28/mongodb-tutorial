@@ -147,7 +147,7 @@ __db.collection.find({someKey: "someValue"})__ with filter
 db.collectionName.find({someKey: "someValue"}) (e.g. find({age: 14}))
 ```
 
-__db.collection.find({someKey: "someValue"})__ with nested object filter
+__db.collection.find({"parentKey.childKey.grandchildKey": "someValue"})__ with nested object filter
 ```bash
 #find specific in nested obj
 e.g
