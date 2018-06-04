@@ -681,7 +681,7 @@ __logical operators__ [https://docs.mongodb.com/manual/reference/operator/query-
 #check "m001_logical_operators.js" file
 ```
 
-__array operators__[https://docs.mongodb.com/manual/reference/operator/query-array/](https://docs.mongodb.com/manual/reference/operator/query-array/)
+__array operators__ [https://docs.mongodb.com/manual/reference/operator/query-array/](https://docs.mongodb.com/manual/reference/operator/query-array/)
 
 ### $all
 
