@@ -98,7 +98,13 @@ use fruits
 db.redFruits.insertOne({ name: "Strawberry" }) #"db" refers to "fruits"
 #fruits is now created
 
-> The "find" method does not return an array but the first 20 documents by default and a cursor that allows us to cycle through the remanining documents. So in the mongo shell, if you have a collection with more than 20 documents and issue "db.<collection>.find()" the shell will display the first 20 docs and pop a message that says "Type 'it' for more". You can chain the ".toArray()" method if you want the shell to cycle through all documents for you, or the ".forEach()" as such "db.<collection>.find().forEach(item => (printjson(item)))" where "printjson" is a shell function.
+# The "find" method does not return an array but the first 20 documents by default 
+# and a cursor that allows us to cycle through the remanining documents. So in the mongo shell, 
+# if you have a collection with more than 20 documents and issue "db.<collection>.find()" 
+# the shell will display the first 20 docs and pop a message that says "Type 'it' for more". 
+# You can chain the ".toArray()" method if you want the shell to cycle through 
+# all documents for you, or the ".forEach()" as such 
+# "db.<collection>.find().forEach(item => (printjson(item)))" where "printjson" is a shell function.
 ```
 
 ## Common Methods [https://docs.mongodb.com/manual/reference/mongo-shell/](https://docs.mongodb.com/manual/reference/mongo-shell/)
