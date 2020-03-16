@@ -91,6 +91,15 @@ show dbs // shows all dbs
 use <dbName> // use db
 show collections // shows all collections in the db
 db.collectionName.find() // shows collection content
+
+# database is created on the fly when we switch to a new database and insert into a collection
+# i.e.
+
+use fruits
+db.redFruits.insertOne({ name: "Strawberry" }) #"db" refers to "fruits"
+
+#fruits is now created
+
 ```
 
 ## Common Methods [https://docs.mongodb.com/manual/reference/mongo-shell/](https://docs.mongodb.com/manual/reference/mongo-shell/)
