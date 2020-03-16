@@ -342,7 +342,7 @@ __collection.update()__
 
 ```bash
 #this update operation replaces the whole document of the matched query
-collection.updateOne({
+collection.update({
   name: "JD"
 },
 {
