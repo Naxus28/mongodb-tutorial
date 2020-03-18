@@ -272,6 +272,10 @@ db.collection.find({someKey: "someValue"}).explain()
 #gives details about the query execution
 db.collection.find({someKey: "someValue"}).explain("executionStats")
 ```
+__db.stats()__
+```bash
+Shows stats about the database (name, collections, and other stats)
+```
 
 __Projections__
 
