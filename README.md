@@ -350,13 +350,24 @@ __collection.update()__
 [update operators](https://docs.mongodb.com/manual/reference/operator/update/)
 
 ```bash
-#this update operation replaces the whole document of the matched query
+#this update operation replaces the whole document of the matched query ("name" is replaced with "age")
 collection.update({
   name: "JD"
 },
 {
-  name: "John Doe",
   age: 23
+})
+```
+
+```bash
+#this update operation updates the first matched entry (adds new property to the document)
+# works similarly to updateOne
+collection.update({
+  name: "JD"
+},
+{ $set: {
+    age: 23
+  }
 })
 ```
 
