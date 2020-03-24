@@ -687,6 +687,10 @@ db.movieDetails.find({"imdb.rating": {$in: [7, 7.5, 8]}}, {title: 1, actors: 1, 
 db.movies.find({cast: {$in: ["Jack Nicholson", "John Huston"]}, viewerRating: {$gt: 7}, mpaaRating: "R"}).pretty()
 ```
 
+__$nin__
+
+Does the opposite of $in (finds documents that do not include items in array).
+
 
 __elements operators__ [https://docs.mongodb.com/manual/reference/operator/query-element/](https://docs.mongodb.com/manual/reference/operator/query-element/)
 
