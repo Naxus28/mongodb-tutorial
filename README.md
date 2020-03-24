@@ -126,7 +126,8 @@ __collection.insertMany()__
   use <dbName>
 
   #insert many documents 
-  #this method inserts documents in order by default (if there is an error, documents stop being #inserted at that point--previously inserted documents are unaffected)
+  #this method inserts documents in order by default (if there is an error, documents stop being 
+  #inserted at that point--previously inserted documents are unaffected)
   #To ignore order and prevent errors from executing further into the query we can 
   #pass a second argument {ordered: false} after the documents to be inserted
   db.collectionName.insertMany([
