@@ -550,7 +550,6 @@ collections.updateOne(
   }
 })
 ```
-db.movies.find({cast: {$in: ["Jack Nicholson", "John Huston"]}, viewerRating: {$gt: 7}, mpaaRating: "R"}).pretty()
 
 __collection.updateOne()__ [upsert](https://docs.mongodb.com/manual/reference/method/db.collection.update/)
 
@@ -683,6 +682,9 @@ Matches any of the values specified in an array.
 #connect to atlas cluster, then:
 use video
 db.movieDetails.find({"imdb.rating": {$in: [7, 7.5, 8]}}, {title: 1, actors: 1, year:1, _id: 0, "imdb.rating": 1}).pretty()
+
+#this finds all movies whose cast includes "Jack Nicholson" or "John Huston", viewerRating greater than 7, and mpaRating === "R"
+db.movies.find({cast: {$in: ["Jack Nicholson", "John Huston"]}, viewerRating: {$gt: 7}, mpaaRating: "R"}).pretty()
 ```
 
 
