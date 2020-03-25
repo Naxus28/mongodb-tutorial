@@ -351,7 +351,7 @@ __$elemMatch__
 db.collectionName.find({"profession.positions": {$elemMatch: {title: "Engineer", company: "Google"} }) #finds where array has an object whose title is "Engineer" AND company is "Google",
 ```
 
-__$size
+__$size__
 ```bash
 #finds matches by array length
 
