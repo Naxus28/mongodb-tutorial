@@ -98,6 +98,8 @@ use fruits
 db.redFruits.insertOne({ name: "Strawberry" }) #"db" refers to "fruits"
 #fruits is now created
 
+#the .help() method can be called on a db or collection
+
 # The "find" method does not return an array but the first 20 documents by default 
 # and a cursor that allows us to cycle through the remanining documents. So in the mongo shell, 
 # if you have a collection with more than 20 documents and issue "db.<collection>.find()" 
@@ -198,6 +200,59 @@ documents:
 db.collectionName.find({"profession.currentCompany.field": "education"}) 
 ```
 
+__db.collection.find()__ with operators
+
+
+__$and__ works like a regular query with two filters
+```bash
+db.collection.find({$and: [{name: "MD"}, {profession.experience: 3}]})
+```
+
+__$or__ fetches where any filter matches
+```bash
+db.collection.find({$or: [{name: "MD"}, {profession.experience: 5}]})
+```
+
+__$nor__ the opposite of $or (where no filter matches)
+```bash
+db.collection.find({$nor: [{name: "MD"}, {profession.experience: 5}]})
+```
+
+__$regex__ 
+```bash
+db.collection.find({name: {$regex: \MD\}})
+```
+
+__$type__ 
+```bash
+db.collection.find({name: {$type: "string"}})
+```
+
+__$exists__ finds matches if property exists (even if value is null)
+```bash
+db.collection.find({name: {$exists: true}})
+
+# if value is needed this operator can be combined with $ne (not equal)
+db.collection.find({name: {$exists: true, $ne: null}})
+```
+
+__$expr__ evaluates an expression and fetches matches that satisfy the result
+```bash
+db.collection.find({$expr: {$gt: ["$experience", 5]}) # fetches where $experience (notice the $ to represent the field as opposed to the string itself) is greater than 5
+```
+
+__$sort__ 
+```bash
+#ascending
+db.collection.find().sort({name: 1})
+
+#descending
+db.collection.find().sort({name: -1})
+
+#by multiple fields in order
+db.collection.find().sort({name: 1, "profession.experience": -1})
+```
+
 __db.collection.find()__ arrays
 ```bash
 #find in arrays
@@ -237,6 +292,20 @@ e.g.
       "Google",
       "Amazon",
       "Reddit"
+    ],
+    positions: [
+      {
+        company: "Google"
+        title: "Engineer"
+      },
+      {
+        company: "Amazon"
+        title: "Sr. Engineer"
+      },
+       {
+        company: "Reddit"
+        title: "Director"
+      }
     ]
   }
 }
@@ -249,7 +318,44 @@ db.collectionName.find({"profession.pastCompanies": "Google"})
 db.collectionName.find({"profession.pastCompanies": ["Google", "Amazon"]}) #returns arrays where "Google" comes before "Amazon" so the first document above is not a match
 
 #Who have worked on a certain company as long as it is in a specific position in the array (useful when array is ordered by some kind of hierarchy)
+
 db.collectionName.find({"profession.pastCompanies.0": "Google"}) #returns documents where "Google" is index 0 of "pastCompanies" array
+```
+
+__db.collection.find()__ arrays with operators
+
+
+__dot notation in array__
+```bash
+# we can use dot notation to access an object property within an array and filter by that property value
+db.collectionName.find({"positions.company": "Google"}) #finds all that have "Google"
+```
+
+__inclusive vs. exclusive__
+```bash
+db.collectionName.find({"positions.company": "Google"}) #finds all that have "Google"
+db.collectionName.find({"positions.company": ["Google"]}) #finds all that have ONLY "Google"
+```
+
+__$all__
+```bash
+# finds in array where all specified items exist regardless of order (without it mongodb only finds matches if document's array items are in the same order as items in query array)
+
+db.collectionName.find({"profession.pastCompanies": {$all: ["Google", "Amazon"]}})
+```
+
+__$elemMatch__
+```bash
+# finds in array where documents match all conditions ($and in an array doesn't fulfill this criteria because it would find where document matches either condition)
+
+db.collectionName.find({"profession.positions": {$elemMatch: {title: "Engineer", company: "Google"} }) #finds where array has an object whose title is "Engineer" AND company is "Google",
+```
+
+__$size
+```bash
+#finds matches by array length
+
+db.collectionName.find({"profession.positions": {$size: 2 }) 
 ```
 
 __utility methods__
